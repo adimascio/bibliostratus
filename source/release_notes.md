@@ -1,3 +1,9 @@
+### version 1.15
+- Tous modules :
+	- Correction lien "Documentation en ligne"
+- Module rouge (marc > tableaux) :
+	- Erreur d'encodage XML : message d'erreur + fichier en sortie
+
 ### version 1.14
 - Modules blancs (alignements) :
     - ajout d'un marqueur "&origin=bibliostratus" dans les requêtes sur le SRU BnF

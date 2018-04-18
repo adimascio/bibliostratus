@@ -754,7 +754,7 @@ def formulaire_noticesaut2arkBnF(master,access_to_network=True, last_version=[0,
     main.form_saut_de_ligne(zone_ok_help_cancel, couleur_fond)
     call4help = tk.Button(zone_ok_help_cancel,
                           text=main.texte_bouton_help, 
-                          command=lambda: main.click2help(main.texte_bouton_help), 
+                          command=lambda: main.click2help(main.url_online_help), 
                           pady=5, padx=5, width=12)
     call4help.pack()
     tk.Label(zone_ok_help_cancel, text="\n",bg=couleur_fond, font="Arial 1 normal").pack()
