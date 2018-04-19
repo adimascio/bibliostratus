@@ -1597,11 +1597,11 @@ def launch(form_bib2ark,zone_controles, entry_filename, type_doc_bib, file_nb, m
     else:
         print("Erreur : type de document non reconnu")
     
-    fin_traitements(form_bib2ark,liste_reports)
+    fin_traitements(form_bib2ark,liste_reports,nb_notices_nb_ARK)
 
 
-def fin_traitements(form_bib2ark,liste_reports):
-    stats_extraction(liste_reports)
+def fin_traitements(form_bib2ark,liste_reports,nb_notices_nb_ARK):
+    stats_extraction(liste_reports,nb_notices_nb_ARK)
     url_access_pbs_report(liste_reports)
     check_access_to_apis(liste_reports)
     typesConversionARK(liste_reports)
@@ -1612,7 +1612,7 @@ def fin_traitements(form_bib2ark,liste_reports):
 
 
 
-def stats_extraction(liste_reports):
+def stats_extraction(liste_reports,nb_notices_nb_ARK):
     """Ecriture des rapports de statistiques générales d'alignements"""
     for key in nb_notices_nb_ARK:
         liste_reports[-1].write(str(key) + "\t" + str(nb_notices_nb_ARK[key]) + "\n")
