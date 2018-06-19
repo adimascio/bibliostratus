@@ -284,7 +284,7 @@ def roman_to_int(n):
 
 def convert_volumes_to_int(n):
     """nettoie la mention d'origine des numéros de tome/volume
-    en ne conservant que le n° lui-même, au besoin converti 
+    en ne conservant que le n° lui-même, au besoin converti
     des chiffres romains en chiffres arabes"""
     for char in ponctuation:
         n = n.replace(char, "-")

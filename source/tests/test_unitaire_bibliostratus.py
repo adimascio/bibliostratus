@@ -9,11 +9,11 @@ A lancer avec pytest
 """
 
 import funcs
-import main
 
-#==============================================================================
-# Tests des fonctions de nettoyage de chaînes de caractères 
-#==============================================================================
+# =============================================================================
+# Tests des fonctions de nettoyage de chaînes de caractères
+# =============================================================================
+
 
 def test_isbn():
     """Vérifie que les ISBN en entrée de la classe ISBN sont correctement convertis"""
@@ -21,7 +21,7 @@ def test_isbn():
     assert isbn10.propre == "2845801254"
     assert isbn10.converti == "9782845801257"
     assert isbn10.nett == "2845801254"
-    
+
     isbndouble = funcs.international_id("2-84580-125-4;2-87153-145-5")
     assert isbndouble.propre == "2845801254"
 
@@ -34,6 +34,7 @@ def test_isbn():
     assert isbnlettres.nett == ""
     assert isbnlettres.propre == ""
     assert isbnlettres.converti == ""
+
 
 def test_tomes():
     """Vérifie que les valeurs trouvées en entrée comme n° de tome
