@@ -8,7 +8,7 @@ Ensemble des tests unitaires sur un ensemble de fonctions utilisées par Biblios
 A lancer avec pytest
 """
 
-import funcs
+from .. import funcs
 
 # =============================================================================
 # Tests des fonctions de nettoyage de chaînes de caractères
@@ -70,7 +70,7 @@ def test_titres():
 
 
 def test_cleaning_string():
-    #Lieu de publication
+    # Lieu de publication
     assert funcs.nettoyagePubPlace("Paris : Gallimard, 1930") == "paris gallimard"
 
 

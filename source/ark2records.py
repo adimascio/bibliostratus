@@ -19,9 +19,9 @@ from urllib import error, request
 import pymarc as mc
 from lxml import etree
 
-import funcs
-import main
-import noticesbib2arkBnF as bib2ark
+from . import funcs
+from . import main
+from . import noticesbib2arkBnF as bib2ark
 
 
 version = 0.02

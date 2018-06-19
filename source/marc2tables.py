@@ -20,9 +20,9 @@ from chardet.universaldetector import UniversalDetector
 import pymarc as mc
 from unidecode import unidecode
 
-import main
-import noticesaut2arkBnF as aut2ark
-import noticesbib2arkBnF as bib2ark
+from . import main
+from . import noticesaut2arkBnF as aut2ark
+from . import noticesbib2arkBnF as bib2ark
 
 
 version = 0.01

@@ -13,7 +13,7 @@ from urllib import error, request
 from lxml import etree
 from unidecode import unidecode
 
-import main
+from . import main
 
 
 # Quelques listes de signes à nettoyer
