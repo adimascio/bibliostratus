@@ -45,26 +45,36 @@ def test_tomes():
     assert funcs.convert_volumes_to_int(case2) == "12"
     assert funcs.convert_volumes_to_int(case3) == "1 5"
 
+
 def test_dates():
     """Vérifie les différents traitements sur les dates"""
-    
-    #Nettoie la chaîne de caractère Date, généralement récupérée d'une 210$d (unimarc)
+
+    # Nettoie la chaîne de caractère Date, généralement récupérée d'une 210$d (unimarc)
     assert funcs.nettoyageDate("DL 2017") == "2017"
     assert funcs.nettoyageDate("Impr. 1922") == "1922"
     assert funcs.nettoyageDate("Paris : Gallimard, 1930") == "1930"
-    
-    #Conserve uniquement la date de début
+
+    # Conserve uniquement la date de début
     assert funcs.datePerios("1925-1945") == "1925"
-    
-    #Date élargie aux 3 années antérieures et ultérieures
+
+    # Date élargie aux 3 années antérieures et ultérieures
     assert funcs.elargirDatesPerios(1922) == "1919 1920 1921 1922 1923 1924 1925"
-    
+
+
 def test_titres():
-    #Vérifications du traitement des titres
+    # Vérifications du traitement des titres
     titre1 = funcs.titre("Au-delà de cette limite, votre ticket n'est plus valable")
     assert titre1.controles == "audeladecettelimitevotreticketnestplusvalable"
     assert titre1.recherche == "au dela de cette limite votre ticket est plus valable"
-    
+
+
 def test_cleaning_string():
     #Lieu de publication
     assert funcs.nettoyagePubPlace("Paris : Gallimard, 1930") == "paris gallimard"
+
+
+def test_nettoyage():
+    text = "Ça, c'est : l'été-du-siècle$"
+    assert funcs.nettoyage(text) == 'cacestletedusiecle'
+    assert funcs.nettoyage(text, remplacerEspaces=False) == 'ca c est  l ete du siecle'
+    assert funcs.nettoyage(text, remplacerTirets=False) == 'cacestlete-du-siecle'
