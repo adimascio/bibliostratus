@@ -1,0 +1,8 @@
+[
+  "tests/test_unitaire_bibliostratus.py::test_isbn",
+  "tests/test_unitaire_bibliostratus.py::test_tomes",
+  "tests/test_unitaire_bibliostratus.py::test_dates",
+  "tests/test_unitaire_bibliostratus.py::test_titres",
+  "tests/test_unitaire_bibliostratus.py::test_cleaning_string",
+  "tests/test_unitaire_bibliostratus.py::test_nettoyage"
+]

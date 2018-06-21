@@ -25,10 +25,6 @@ from . import noticesaut2arkBnF as aut2ark
 from . import noticesbib2arkBnF as bib2ark
 
 
-version = 0.01
-programID = "marc2tables"
-lastupdate = "10/11/2017"
-last_version = [version, False]
 
 # Permet d'écrire dans une liste accessible au niveau général depuis le
 # formulaire, et d'y accéder ensuite
@@ -201,6 +197,17 @@ def record2title(f200a_e):
     title = clean_punctation(title)
     return title
 
+
+def recordmarc21_to_date(f008, f260d):
+    date = ""
+    if main.RepresentsInt(f008[7:11]):
+        date = f008[7:11]
+    else:
+        date = f260d
+    date = clean_punctation(date)
+    date = clean_letters(date)
+    date = clean_spaces(date)
+    return date
 
 def record2date(f100a, f210d):
     date = ""
@@ -400,8 +407,45 @@ en UTF-8 avant de le mettre en entrée du logiciel"""
         error_file.write(message)
         error_file.close()
 
+def metas_from_marc21(record):
+    title = record2title(
+        record2meta(record, ["245$a", "245$e"])
+    )
+    keyTitle = record2title(
+        record2meta(record, ["222$a"], ["200$a", "200$e"])
+    )
+    authors = record2authors(record2meta(record, [
+        "100$a",
+        "100$m",
+        "110$a",
+        "110$m",
+        "700$a",
+        "700$m",
+        "710$a",
+        "710$m",
+    ],
+        ["245$f"])
+    )
+    authors2keywords = aut2keywords(authors)
+    date = recordmarc21_to_date(record2meta(
+        record, ["008"]), record2meta(record, ["260$c"]))
+    numeroTome = record2numeroTome(record2meta(record, ["245$n"], ["490$v"]))
+    publisher = record2publisher(record2meta(record, ["260$b"]))
+    pubPlace = record2pubPlace(record2meta(record, ["260$a"]))
+    ark = record2ark(record2meta(record, ["033$a"]))
+    frbnf = record2frbnf(record2meta(record, ["035$a"]))
+    isbn = record2isbn(record2meta(record, ["020$a"]))
+    issn = record2isbn(record2meta(record, ["022$a"]))
+    ean = record2ean(record2meta(record, ["024$a"]))
+    id_commercial_aud = record2id_commercial_aud(
+        record2meta(record, ["073$a"]))
+    return (
+            title, keyTitle, authors, 
+            authors2keywords, date, numeroTome, publisher, pubPlace, 
+            ark, frbnf, isbn, issn, ean, id_commercial_aud
+            )
 
-def bibrecord2metas(numNot, doc_record, record):
+def metas_from_unimarc(record):
     title = record2title(
         record2meta(record, ["200$a", "200$e"])
     )
@@ -437,6 +481,23 @@ def bibrecord2metas(numNot, doc_record, record):
     ean = record2ean(record2meta(record, ["073$a"]))
     id_commercial_aud = record2id_commercial_aud(
         record2meta(record, ["071$b", "071$a"]))
+    return (
+            title, keyTitle, authors, 
+            authors2keywords, date, numeroTome, publisher, pubPlace, 
+            ark, frbnf, isbn, issn, ean, id_commercial_aud
+            )
+
+def bibrecord2metas(numNot, doc_record, record):
+
+    (title, keyTitle, authors, authors2keywords,
+     date, numeroTome, publisher, pubPlace, ark, frbnf, isbn, issn, ean, 
+     id_commercial_aud)= metas_from_unimarc(record)
+    
+# =============================================================================
+#     (title, keyTitle, authors, authors2keywords, 
+#      date, numeroTome, publisher, pubPlace, ark, frbnf, isbn, issn, ean, 
+#      id_commercial_aud) = metas_from_marc21(record)
+# =============================================================================
 
     if (doc_record not in liste_fichiers):
         liste_fichiers.append(doc_record)
@@ -454,7 +515,8 @@ def bibrecord2metas(numNot, doc_record, record):
             meta = [numNot, frbnf, ark, issn, keyTitle,
                     authors2keywords, date, pubPlace]
     else:
-        meta = [numNot, frbnf, ark, ean, title, authors, date]
+        meta = [numNot, frbnf, ark, isbn, ean, id_commercial_aud, issn, 
+                title, authors, date, numeroTome, publisher, pubPlace]
     return meta
 
 
@@ -593,7 +655,10 @@ def record2listemetas(id_traitement, record, rec_format=1):
 
 def write_reports(id_traitement, doc_record, rec_format):
     filename = doc_record_type[doc_record]
-    header_columns = ["NumNotice", "FRBNF", "ARK", "Autres métadonnées..."]
+    header_columns = [
+            "NumNotice", "FRBNF", "ARK", "ISBN", "EAN", "N° commercial", 
+            "ISSN", "Titre", "Auteur", "Date", "Tome-Volume", "Editeur", 
+            "Lieu de publication"]
     if (rec_format == 1):
         if (doc_record == "am" or doc_record == "lm"):
             filename = "TEX-" + filename
@@ -692,7 +757,7 @@ def launch(form, entry_filename, file_format, rec_format, output_ID, master):
 
 
 def formulaire_marc2tables(
-        master, access_to_network=True, last_version=[version, False]):
+        master, access_to_network=True, last_version=[0.0, False]):
     # =============================================================================
     # Structure du formulaire - Cadres
     # =============================================================================
@@ -997,7 +1062,7 @@ def formulaire_marc2tables(
 
 if __name__ == '__main__':
     access_to_network = main.check_access_to_network()
-    # if(access_to_network is True):
-    #    last_version = main.check_last_compilation(programID)
+    if(access_to_network is True):
+        last_version = main.check_last_compilation(main.programID)
     main.formulaire_main(access_to_network, last_version)
     # formulaire_marc2tables(access_to_network,last_version)
