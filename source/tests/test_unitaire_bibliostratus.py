@@ -77,5 +77,5 @@ def test_cleaning_string():
 def test_nettoyage():
     text = "Ça, c'est : l'été-du-siècle$"
     assert funcs.nettoyage(text) == 'cacestletedusiecle'
-    assert funcs.nettoyage(text, remplacerEspaces=False) == 'ca c est  l ete du siecle'
+    assert funcs.nettoyage(text, remplacerEspaces=False) == 'ca c est l ete du siecle'
     assert funcs.nettoyage(text, remplacerTirets=False) == 'cacestlete-du-siecle'
